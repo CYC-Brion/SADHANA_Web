@@ -11,7 +11,7 @@ SADHANA 的 B2B 酒店化妆镜网站项目工作区。网站以产品目录、�
 - [产品定位](00_active_docs/01_foundation/company-product-positioning.md)与[网站需求框架](00_active_docs/01_foundation/website-requirements-framework.md)：业务目标和目标买家。
 - [信息架构](00_active_docs/02_architecture_prd/site-information-architecture.md)：页面与用户路径。
 - [产品数据规范](00_active_docs/06_product_data/product-data-guideline.md)：录入字段与命名原则。
-- [产品详情文案试点](product-detail-copy-pilot-2026-10-04.md)：仅为本地审阅稿，不代表已上线。
+- 产品详情文案与身份核查的内部试点保留本地；公开仓库不含具体审计记录。
 
 ## 目录说明
 
