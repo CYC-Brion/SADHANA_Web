@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SADHANA — Mirror Type Selector Study</title>
+    <style>
+      :root {
+        --ink: #1d1c19;
+        --soft-ink: #5e594f;
+        --paper: #f4f0e8;
+        --card: #fbfaf6;
+        --drawing-paper: #f8efe0;
+        --line: #d9d1c4;
+        --gold: #b7833e;
+        --deep: #23221e;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .demo-note {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 13px clamp(20px, 4vw, 64px);
+        border-bottom: 1px solid #403e37;
+        background: var(--deep);
+        color: #f5f0e7;
+        font-size: 12px;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+
+      .demo-note strong { color: #d9ad6a; }
+
+      .selector {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: clamp(58px, 7vw, 92px) clamp(20px, 5vw, 68px) 72px;
+      }
+
+      .intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, .75fr);
+        gap: 40px;
+        align-items: end;
+        margin-bottom: 48px;
+      }
+
+      .eyebrow {
+        display: block;
+        margin-bottom: 16px;
+        color: var(--gold);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+
+      h1, h2, h3, p { margin-top: 0; }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(48px, 6.2vw, 80px);
+        font-weight: 700;
+        letter-spacing: -.055em;
+        line-height: .96;
+      }
+
+      .intro p {
+        max-width: 430px;
+        margin-bottom: 6px;
+        color: var(--soft-ink);
+        font-size: 17px;
+        line-height: 1.65;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .product-card {
+        display: flex;
+        min-height: 0;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--card);
+        color: inherit;
+        text-decoration: none;
+        transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+      }
+
+      .product-card:hover,
+      .product-card:focus-visible {
+        border-color: #a87837;
+        box-shadow: 0 16px 32px rgba(47, 38, 24, .09);
+        outline: 0;
+        transform: translateY(-4px);
+      }
+
+      .drawing {
+        position: relative;
+        display: grid;
+        min-height: 0;
+        aspect-ratio: 1.28 / 1;
+        place-items: center;
+        overflow: hidden;
+        border-bottom: 1px solid var(--line);
+        background: var(--drawing-paper);
+      }
+
+      .drawing::after {
+        position: absolute;
+        right: 21px;
+        bottom: 18px;
+        color: #9a7c4c;
+        content: attr(data-index);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .15em;
+      }
+
+      .drawing img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        filter: brightness(1.055) saturate(.8);
+      }
+
+      /* The fourth source study began with a warmer paper scan; normalize it to the shared card paper. */
+      .product-card:nth-child(4) .drawing img {
+        filter: brightness(1.10) saturate(.58);
+      }
+
+      .card-copy {
+        display: block;
+        padding: 25px 28px 26px;
+      }
+
+      .card-copy h2 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(28px, 3vw, 38px);
+        letter-spacing: -.045em;
+        line-height: .98;
+      }
+
+      .card-kind {
+        margin: 0 0 9px;
+        color: var(--gold);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+      }
+
+      .custom-cta {
+        display: grid;
+        grid-template-columns: 238px minmax(0, 1fr) auto;
+        gap: clamp(26px, 4vw, 62px);
+        align-items: center;
+        margin-top: 18px;
+        padding: 30px clamp(24px, 4vw, 52px);
+        border-radius: 16px;
+        background: var(--deep);
+        color: #f8f4eb;
+      }
+
+      .custom-mark {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+      }
+
+      .custom-cta .eyebrow { margin-bottom: 10px; color: #d6a55d; }
+
+      .custom-cta h2 {
+        max-width: 650px;
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(29px, 3.2vw, 43px);
+        letter-spacing: normal;
+        line-height: 1;
+      }
+
+      .custom-cta .question-mark {
+        display: inline-block;
+        margin-left: .045em;
+      }
+
+      .custom-cta p {
+        max-width: 620px;
+        margin: 15px 0 0;
+        color: #d6cfc3;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .custom-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 22px;
+        border: 1px solid #d8ae70;
+        border-radius: 999px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .custom-link:hover,
+      .custom-link:focus-visible { background: #d8ae70; color: #25231f; outline: 0; }
+
+      /* Large desktops: this is a fast category navigator, not a product gallery.
+         The art keeps its native 1.28:1 ratio so every technical study remains complete. */
+      @media (min-width: 1100px) {
+        .intro { margin-bottom: 34px; }
+
+        .product-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 14px;
+        }
+
+        .product-card { min-height: 0; }
+
+        .card-copy {
+          position: relative;
+          min-height: 80px;
+          padding: 14px 18px 15px;
+        }
+
+        .card-copy h2 {
+          font-size: 21px;
+          letter-spacing: -.02em;
+          line-height: 1;
+          white-space: nowrap;
+        }
+
+        .card-kind {
+          margin-bottom: 5px;
+          font-size: 10px;
+          letter-spacing: .12em;
+        }
+
+        .custom-cta {
+          grid-template-columns: 170px minmax(0, 1fr) auto;
+          gap: 30px;
+          margin-top: 14px;
+          padding: 22px 32px;
+        }
+
+        .custom-mark {
+          width: 160px;
+          height: 160px;
+        }
+
+        .custom-cta h2 { font-size: 34px; }
+        .custom-cta p { margin-top: 10px; font-size: 14px; }
+      }
+
+      @media (max-width: 760px) {
+        .demo-note { align-items: flex-start; flex-direction: column; gap: 5px; }
+        .intro { display: block; margin-bottom: 32px; }
+        .intro p { margin-top: 22px; }
+        .product-grid { grid-template-columns: 1fr; }
+        .product-card { min-height: 0; }
+        .drawing { aspect-ratio: 1.28 / 1; }
+        .custom-cta { grid-template-columns: 1fr; gap: 18px; }
+        .custom-mark { display: none; }
+        .custom-link { justify-self: start; }
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="demo-note" aria-label="Demo context">
+      <span><strong>SADHANA homepage study</strong> · Product category selector</span>
+      <span>Direction A · technical product plates</span>
+    </aside>
+
+    <main class="selector">
+      <section aria-labelledby="selector-title">
+        <div class="intro">
+          <div>
+            <span class="eyebrow">Product configuration</span>
+            <h1 id="selector-title">Select your mirror configuration.</h1>
+          </div>
+          <p>Choose by installation and lighting, then review finishes and project requirements with our team.</p>
+        </div>
+
+        <div class="product-grid" aria-label="Mirror product types">
+          <a class="product-card" href="https://sadhanaco.com/products/led-wall-mounted-makeup-mirrors/">
+            <div class="drawing" data-index="01 / 04">
+              <img src="04_assets/product_category_illustrations/led-wall-mounted-technical-study-wide.png" alt="Technical study of an LED wall mounted makeup mirror" />
+            </div>
+            <div class="card-copy">
+              <div><p class="card-kind">LED</p><h2>Wall Mounted Mirrors</h2></div>
+            </div>
+          </a>
+
+          <a class="product-card" href="https://sadhanaco.com/products/non-lit-wall-mounted-makeup-mirrors/">
+            <div class="drawing" data-index="02 / 04">
+              <img src="04_assets/product_category_illustrations/non-lit-wall-mounted-technical-study-wide.png" alt="Technical study of a non-lit wall mounted makeup mirror" />
+            </div>
+            <div class="card-copy">
+              <div><p class="card-kind">Non-lit</p><h2>Wall Mounted Mirrors</h2></div>
+            </div>
+          </a>
+
+          <a class="product-card" href="https://sadhanaco.com/products/led-tabletop-makeup-mirrors/">
+            <div class="drawing" data-index="03 / 04">
+              <img src="04_assets/product_category_illustrations/led-tabletop-technical-study-wide.png" alt="Technical study of an LED tabletop makeup mirror" />
+            </div>
+            <div class="card-copy">
+              <div><p class="card-kind">LED</p><h2>Tabletop Mirrors</h2></div>
+            </div>
+          </a>
+
+          <a class="product-card" href="https://sadhanaco.com/products/non-lit-tabletop-makeup-mirrors/">
+            <div class="drawing" data-index="04 / 04">
+              <img src="04_assets/product_category_illustrations/non-lit-tabletop-technical-study-wide.png" alt="Technical study of a non-lit tabletop makeup mirror" />
+            </div>
+            <div class="card-copy">
+              <div><p class="card-kind">Non-lit</p><h2>Tabletop Mirrors</h2></div>
+            </div>
+          </a>
+        </div>
+
+        <section class="custom-cta" aria-labelledby="custom-title">
+          <img class="custom-mark" src="04_assets/product_category_illustrations/custom-project-technical-study.png" alt="Technical study of a configurable tabletop mirror with storage and folding arms" />
+          <div>
+            <span class="eyebrow">OEM / ODM project path</span>
+            <h2 id="custom-title">Have a custom project brief<span class="question-mark">?</span></h2>
+            <p>Bring structure, finish, function, installation, or sampling into one practical project review.</p>
+          </div>
+          <a class="custom-link" href="https://sadhanaco.com/custom-hotel-makeup-mirrors/">Discuss a project</a>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
